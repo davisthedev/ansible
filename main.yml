@@ -1,4 +1,5 @@
 - hosts: localhost
+  become: yes
   tasks:
   - name: Install Vim
     apt:
