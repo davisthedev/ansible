@@ -1,7 +1,7 @@
-- hosts: localhost
+- name: Setup Debian 12 Bookworm
+  hosts: localhost
   become: yes
-  tasks:
-  - name: Install Vim
-    apt:
-      name: vim
-      state: present
+  roles:
+    - common
+    - vim
+    - zsh
