@@ -1,7 +1,13 @@
 - name: Setup Debian 12 Bookworm
   hosts: localhost
-  become: yes
   roles:
-    - common
+    - core
+    - git
     - vim
     - zsh
+    - lazygit
+    - node
+    - golang
+    - rust
+    - neovim
+    - lunarvim

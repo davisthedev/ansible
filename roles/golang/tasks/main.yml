@@ -1,0 +1,46 @@
+---
+- name: Fetch the latest version of Golang
+  uri:
+    url: https://golang.org/VERSION?m=text
+    return_content: true
+  register: go_latest_version
+  ignore_errors: true
+  when: go_version is not defined or go_version == 'latest'
+
+- name: Set Go version to the latest if not defined
+  set_fact:
+    go_version: "{{ go_latest_version.content | regex_replace('go', '') }}"
+  when: go_version is not defined or go_version == 'latest'
+
+- name: Download Golang
+  get_url:
+    url: "https://dl.google.com/go/go{{ go_version }}.linux-amd64.tar.gz"
+    dest: "/tmp/go{{ go_version }}.linux-amd64.tar.gz"
+    timeout: 60
+  register: download
+  until: download is succeeded
+
+- name: Extract Go tarball
+  unarchive:
+    src: "/tmp/go{{ go_version }}.linux-amd64.tar.gz"
+    dest: "{{ go_root }}"
+    remote_src: true
+    creates: "{{ go_root }}/bin/go"
+
+- name: Set environment variables for Go
+  lineinfile:
+    path: "{{ ansible_env.HOME }}/.bashrc"
+    line: "{{ item }}"
+    create: true
+  with_items:
+    - "export GOROOT={{ go_root }}"
+    - "export GOPATH={{ go_path }}"
+    - "export PATH=$PATH:{{ go_root }}/bin:{{ go_path }}/bin"
+
+- name: Create GOPATH directory
+  file:
+    path: "{{ go_path }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0755'

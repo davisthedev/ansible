@@ -1,0 +1,21 @@
+---
+- name: Update and upgrade apt packages
+  become: true
+  apt:
+    update_cache: yes
+    upgrade: dist
+
+- name: Install Core Packages 1
+  become: true
+  apt: 
+    name: ["build-essential", "htop", "clangd", "python3-pip"]
+
+- name: Install Core Packages 2
+  become: true
+  apt: 
+    name: ["ninja-build", "gettext", "cmake", "unzip", "curl"]
+
+- name: Install Core Packages 3
+  become: true
+  apt: 
+    name: ["tmux", "wireshark", "fzf", "ripgrep", "fd-find"]
