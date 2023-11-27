@@ -1,5 +1,5 @@
 ---
 # Default values
-go_version: "1.20"  # You can change this to set a default version
+go_version: "latest"  # You can change this to set a default version
 go_root: "/usr/local/go"
-go_path: "/home/{{ ansible_user }}/go"
+go_path: "/home/davis/go"

@@ -12,6 +12,14 @@
     go_version: "{{ go_latest_version.content | regex_replace('go', '') }}"
   when: go_version is not defined or go_version == 'latest'
 
+- name: Create go directory
+  file:
+    path: "{{ go_root }}"
+    owner: davis
+    group: davis
+    state: directory
+    mode: '0755'
+
 - name: Download Golang
   get_url:
     url: "https://dl.google.com/go/go{{ go_version }}.linux-amd64.tar.gz"
@@ -41,6 +49,4 @@
   file:
     path: "{{ go_path }}"
     state: directory
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
     mode: '0755'
