@@ -9,10 +9,11 @@
 
 - name: Set Go version to the latest if not defined
   set_fact:
-    go_version: "{{ go_latest_version.content | regex_replace('go', '') }}"
+    go_version: "{{ go_latest_version.content.split('\n')[0] | regex_replace('go', '') }}"
   when: go_version is not defined or go_version == 'latest'
 
 - name: Create go directory
+  become: true
   file:
     path: "{{ go_root }}"
     owner: davis

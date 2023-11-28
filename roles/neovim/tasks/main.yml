@@ -1,3 +1,8 @@
+- name: Install neovim requirements
+  become: true
+  apt: 
+    name: ["ninja-build", "gettext", "cmake", "unzip", "curl"]
+
 - name: Remove neovim
   shell: rm -rf ~/tools/neovim
 
