@@ -5,9 +5,11 @@
     - git
     - vim
     - zsh
+    - nerdfonts
     - lazygit
     - node
     - golang
     - rust
     - neovim
     - lunarvim
+    - regolith

@@ -1,0 +1,28 @@
+---
+- name: Add Regolith GPG key to keyring
+  ansible.builtin.get_url:
+    url: https://regolith-desktop.org/regolith.key
+    dest: /tmp/regolith.key
+    mode: '0644'
+
+- name: Dearmor Regolith GPG key and add to keyring
+  become: true
+  ansible.builtin.shell:
+    cmd: gpg --dearmor < /tmp/regolith.key > /usr/share/keyrings/regolith-archive-keyring.gpg
+    creates: /usr/share/keyrings/regolith-archive-keyring.gpg
+
+- name: Add Regolith repository
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/apt/sources.list.d/regolith.list
+    line: deb [arch=amd64 signed-by=/usr/share/keyrings/regolith-archive-keyring.gpg] https://regolith-desktop.org/release-3_0-debian-bullseye-amd64 bullseye main
+    create: yes
+
+- name: Update apt and install Regolith
+  become: true
+  ansible.builtin.apt:
+    name:
+      - regolith-desktop
+      - regolith-compositor-picom-glx
+    update_cache: yes
+    state: present

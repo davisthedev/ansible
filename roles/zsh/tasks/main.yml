@@ -7,7 +7,7 @@
 
 - name: Change shell to zsh
   become: true
-  shell: chsh -s $(which zsh) davis
+  shell: chsh -s $(which zsh)
 
 - name: Oh-My-Zsh
   shell: curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh > ~/.oh-my-installer && chmod +x ~/.oh-my-installer && ~/.oh-my-installer
@@ -19,5 +19,19 @@
 
 - name: Install zsh-syntax-highlighting
   ansible.builtin.git:
-    repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
-    dest: "~/.oh-my-zsh/plugins/zsh-autosuggestions"
+    repo: 'https://github.com/zsh-users/zsh-syntax-highlighting.git'
+    dest: "~/.oh-my-zsh/plugins/zsh-syntax-highlighting"
+
+- name: Ensure custom themes directory exists for Oh My Zsh
+  file:
+    path: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes"
+    state: directory
+    mode: '0755'
+
+- name: Clone Catppuccin Zsh syntax highlighting theme
+  git:
+    repo: 'https://github.com/catppuccin/zsh-syntax-highlighting.git'
+    dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes/catppuccin-zsh-syntax-highlighting"
+    version: 'main'
+    clone: yes
+    update: yes

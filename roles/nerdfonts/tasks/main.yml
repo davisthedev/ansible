@@ -1,0 +1,37 @@
+---
+- name: Install unzip if not present
+  become: true
+  ansible.builtin.apt:
+    name: unzip
+    state: present
+
+- name: Install Fontconfig
+  become: true
+  ansible.builtin.apt:
+    name: fontconfig
+    state: present
+
+- name: Download JetBrains Mono Nerd Font
+  ansible.builtin.get_url:
+    url: "{{ font_url }}"
+    dest: "/tmp/{{ font_name }}.zip"
+    mode: '0644'
+
+- name: Create font directory if it does not exist
+  become: true
+  ansible.builtin.file:
+    path: "{{ font_path }}"
+    state: directory
+    mode: '0755'
+
+- name: Extract font to the fonts directory
+  become: true
+  ansible.builtin.unarchive:
+    src: "/tmp/{{ font_name }}.zip"
+    dest: "{{ font_path }}"
+    remote_src: yes
+    creates: "{{ font_path }}/{{ font_name }}"
+
+- name: Refresh font cache
+  become: true
+  ansible.builtin.shell: fc-cache -fv
