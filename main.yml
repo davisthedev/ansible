@@ -1,5 +1,7 @@
 - name: Setup Debian 12 Bookworm
   hosts: localhost
+  vars:
+    user: "davis"
   roles:
     - core
     - git

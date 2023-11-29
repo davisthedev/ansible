@@ -24,5 +24,5 @@ USER davis
 WORKDIR /home/davis
 
 FROM davis
-COPY . .
-CMD ["sh", "-c", "ansible-playbook main.yml"]
+# COPY . .
+# CMD ["sh", "-c", "ansible-playbook main.yml"]

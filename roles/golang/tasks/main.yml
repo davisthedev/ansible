@@ -16,8 +16,8 @@
   become: true
   file:
     path: "{{ go_root }}"
-    owner: davis
-    group: davis
+    owner: {{ user }}
+    group: {{ user }}
     state: directory
     mode: '0755'
 
