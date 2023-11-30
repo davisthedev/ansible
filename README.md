@@ -12,7 +12,7 @@
 
 # Run the Ansible playbook
 # Note: Consider running this as a non-root user if possible
-```ansible-playbook main.yml```
+```ansible-playbook main.yml -K```
 
 ### Test
 1. ```docker image build --tag local:{image_name}```
