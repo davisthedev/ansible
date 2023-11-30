@@ -1,0 +1,23 @@
+---
+- name: Install dependencies
+  become: true
+  apt:
+    name:
+      - curl
+      - docker.io
+    state: present
+    update_cache: yes
+
+- name: Add user to docker group
+  become: true
+  user:
+    name: "{{ user }}"
+    groups: docker
+    append: yes
+
+- name: Ensure docker service is running
+  become: true
+  systemd:
+    name: docker
+    state: started
+    enabled: yes
