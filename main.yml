@@ -13,5 +13,7 @@
     - golang
     - rust
     - neovim
-    - lunarvim
+    # - lunarvim
+    # - docker
+    # - obsidian
     - regolith
